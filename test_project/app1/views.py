@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 import json
-from .models import Book
+from .models import Book, UserProfile
 import pdb
 import pudb
 
@@ -40,16 +40,23 @@ def test_post(request):
 def register(request):
         if request.method=='GET':
                 return render(request, 'register.html')
-        else:
-                username = request.POST['username']
-                password = request.POST['password']
-		#user_obj = User.objects.create(username=username, password=password)
+        else:	
+                post_data = request.POST.dict()	
+                username = post_data.get('username')
+                if User.objects.filter(username=username):
+					return HttpResponse("User already exists")
+                password = post_data.get('password')
+                firstname = post_data.get('firstname')
+                lastname = post_data.get('lastname')
+                age = post_data.get('age')
+                address = post_data.get('address')
 		user_obj = User.objects.create_user(username=username, password=password)
-		user_obj.save()
-                return HttpResponse("success")
+		userprofile_obj = UserProfile.objects.create(user=user_obj,firstname=firstname,lastname=lastname,age=age,address=address)
+		return HttpResponse("success")
 
 
 def login_method(request):
+	context={}
 	if request.method=='GET':
 		return render(request, 'login.html')
 	else:
@@ -58,6 +65,7 @@ def login_method(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			login(request, user)
-			return render(request,"logged_in_user.html")
+			context['user_details'] = user.user_profile
+			return render(request,"logged_in_user.html", context)
 		else:
 			return HttpResponse("Log in Failed")

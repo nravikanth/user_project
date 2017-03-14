@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -31,3 +32,11 @@ class Book_MM(models.Model):
 	
 	def __unicode__(self):
 		return self.book
+
+class UserProfile(models.Model):
+	user = models.OneToOneField(User, related_name='user_profile')
+	firstname = models.CharField(max_length=50)
+	lastname = models.CharField(max_length=50)
+	age = models.IntegerField()
+	address = models.CharField(max_length=100)
+	
