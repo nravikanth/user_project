@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 import json
 from .models import Book, UserProfile
+from .forms import *
 import pdb
 import pudb
 
@@ -69,3 +70,34 @@ def login_method(request):
 			return render(request,"logged_in_user.html", context)
 		else:
 			return HttpResponse("Log in Failed")
+
+def book_view(request):
+	pdb.set_trace()
+	context = {}
+	context['form_name']='Book Entry Form'
+	if request.method=='POST':
+		form = BookForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponse("success")
+	else:
+		form = BookForm()
+	context['form'] = form
+	return  render(request, "form.html",context=context)
+
+def publication_view(request):
+    context={}
+    context['form_name']='Publication Entry Form'
+    if request.method=='POST':
+        form = PublicationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("success")
+    else:
+        form = PublicationForm()
+	context['form']=form
+	return  render(request, "form.html",context=context)
+
+		
+		
+		

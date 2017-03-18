@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from app1.views import test_view, test_extends_parent, test_extends_child, test_get, test_post, register, login_method
+from app1.views import test_view, test_extends_parent, test_extends_child, test_get, test_post, register, login_method, book_view, publication_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -26,5 +26,8 @@ urlpatterns = [
     url(r'^test_post/', test_post),
     url(r'^register/', register),
     url(r'^login/', login_method),
+    url(r'^book/', book_view),
+    url(r'^publication/', publication_view),
+	
 
 ]
