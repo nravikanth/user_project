@@ -1,7 +1,9 @@
+{%extends 'parent.html'%}
 <!DOCTYPE html>
 <html>
 <body>
-
+{%block message%}
+{{user}}
 <form method="post" action="/test_post/">
   {% csrf_token %}
   Username:<br>
@@ -16,3 +18,4 @@
 <p>If you click the "Submit" button, the form-data will be sent to a page called "/test_post".</p>
 
 </body>
+{%endblock%}

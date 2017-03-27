@@ -59,8 +59,9 @@ def register(request):
 def login_method(request):
 	context={}
 	if request.method=='GET':
-		return render(request, 'login.html')
+		return render(request, 'new_login.html')
 	else:
+		pdb.set_trace()
 		username = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
@@ -72,7 +73,6 @@ def login_method(request):
 			return HttpResponse("Log in Failed")
 
 def book_view(request):
-	pdb.set_trace()
 	context = {}
 	context['form_name']='Book Entry Form'
 	if request.method=='POST':
